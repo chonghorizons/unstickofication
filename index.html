@@ -154,7 +154,7 @@
     //oscillator.start();
 
     contexts.push(context)
-    oscillators.push(osciallator)
+    oscillators.push(oscillator)
   }
 
   $(document).ready(function(){
@@ -233,37 +233,37 @@
 
           myBoxAnimate('red', "div#progress1", "#display1", myDelays[0])
           $("#mainMessage").html('WORK WORK WORK')
-          oscillator[0].start
-          setTimeout(()=>{ oscillator[0].stop}, playSoundDuration)
+          oscillators[0].start
+          setTimeout(()=>{ oscillators[0].stop}, playSoundDuration)
 
 
           setTimeout( ()=>{
             myBoxAnimate("blue", "div#progress2", "#display2", myDelays[1]);
-            $("#mainMessage").html('Hooray! GET A TREAT')}
-            oscillator[1].start
-            setTimeout(()=>{ oscillator[1].stop}, playSoundDuration);
+            $("#mainMessage").html('Hooray! GET A TREAT');
+            oscillators[1].start()
+            setTimeout(()=>{ oscillators[1].stop()}, playSoundDuration);
           }, 1000*myDelays[0] + extraDelay )
 
 
           setTimeout( ()=>{
             myBoxAnimate("red", "div#progress3", "#display3", myDelays[2]);
             $("#mainMessage").html('more work work work, before ANOTHER TREAT');
-            oscillator[2].start
-            setTimeout(()=>{ oscillator[2].stop}, playSoundDuration)
+            oscillators[2].start()
+            setTimeout(()=>{ oscillators[2].stop()}, playSoundDuration)
           }, 1000*(myDelays.slice(0,2).reduce((x,y)=>x+y)) + extraDelay )
 
           setTimeout( ()=>{
             myBoxAnimate("blue", "div#progress4", "#display4", myDelays[3]);
             $("#mainMessage").html('Hooray! GET A 2nd TREAT');
-            oscillator[3].start
-            setTimeout(()=>{ oscillator[3].stop}, playSoundDuration)
+            oscillators[3].start()
+            setTimeout(()=>{ oscillators[3].stop()}, playSoundDuration)
           }, 1000*(myDelays.slice(0,3).reduce((x,y)=>x+y)) + extraDelay )
 
           setTimeout( ()=>{
             myBoxAnimate("red", "div#progress5", "#display5", myDelays[4]);
-            $("#mainMessage").html('final push! work! You can do it!')
-            oscillator[4].start
-            setTimeout(()=>{ oscillator[4].stop}, playSoundDuration)
+            $("#mainMessage").html('final push! work! You can do it!');
+            oscillators[4].start()
+            setTimeout(()=>{ oscillators[4].stop()}, playSoundDuration)
           }, 1000*(myDelays.slice(0,4).reduce((x,y)=>x+y))+ extraDelay )
 
 
