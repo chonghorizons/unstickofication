@@ -1,0 +1,43 @@
+.timer-block {
+  height: 100px;
+}
+
+.timer-box {
+
+}
+.verticalBox {
+  display: inline-block;
+  width: 100px;
+}
+
+.verticalBox .boxwrapper {
+  background: white;
+  border: black solid 1px;
+}
+
+.boxwrapper{background:red;
+   color:green; padding:10px; zzoverflow:hidden;
+   position:relative;
+   display:inline-block; height:100px; width:100px;
+   box-sizing:border-box;
+}
+
+
+
+.content, .display{
+    z-index:9;
+    position:relative;
+    background: white;
+    display: inline-block;
+}
+.progress{
+    z-index;1;
+    height:0px;
+    width:0px;
+    padding:0px;
+    margin: 0px;
+    position:absolute;
+    background:blue;
+    left:0px;
+    bottom:0px;
+}

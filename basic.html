@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <link type="text/css" rel="stylesheet" href="main.css">
+</head>
+<body>
+<div class="container">
+  <h1>Get Unstuck - Basic</h1>
+
+  <div class="row setup step">
+    <h2>The Setup</h2>
+    <p>
+       Setup takes 2-4 minutes. And you'll learn some stuff about yourself/neuroscience.
+    </p>
+    <p>
+      The problem: Work is drugery, so we avoid it. But we actually want the goal. So, is there a way to get past the drugery?
+    </p>
+    <p>
+      Quick answer: Yes! with treats and gamification. The best way to see it is to try it.
+    </p>
+    <form>
+      <input type="number" id="workChunkMinutes" value="20"/> Minutes for Work Chunk
+      <input type="number" id="treatMinutes" value="5"/>  Minutes for Treat
+      <br />
+      <p>
+        Leave this at 20 & 5 for now.
+      </p>
+    </form>
+    <p id="timeBlocksAbove">
+      The time blocks are JQUERY WILL SET.
+    </p>
+  </div>
+
+  <div class="row timer">
+    <p>
+      Alright. Silence your cell phone. Pick your *favorite* task from the ones you came up with before. And
+    </p>
+    <div class="timer-box">
+      <div class="col-sm-2 timer-block" style="background: red">
+        CHUNK
+      </div>
+      <div class="col-sm-2 timer-block" style="background: blue">
+        treat
+      </div>
+      <div class="col-sm-2 timer-block" style="background: red">
+        CHUNK
+      </div>
+      <div class="col-sm-2 timer-block" style="background: blue">
+        treat
+      </div>
+      <div class="col-sm-2 timer-block" style="background: red">
+        CHUNK
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+</body>
+<script>
+  $(document).ready(refreshPage());
+  function refreshPage(){
+    console.log('begin refresh page')
+    var workChunkMinutes=$("#workChunkMinutes").val();
+    var treatMinutes=$("#treatMinutes").val();
+    var totalMinutes=3*workChunkMinutes+2*treatMinutes;
+      $("#timeBlocksAbove").html(`The Time blocks are ${workChunkMinutes}-${treatMinutes}-${workChunkMinutes}-${treatMinutes}-${workChunkMinutes} <br /> For a total to ${totalMinutes} minutes`)
+  }
+
+</script>
+</head>
