@@ -2,10 +2,137 @@
 <html>
 <head>
 
-  <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+<script
+src="https://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+crossorigin="anonymous">
+</script>
+
+<script>
+    $(document).ready(function(){
+      console.log('ready');
+
+
+
+
+
+
+      $("button#thirdButton3").click(function(e){
+            e.preventDefault();
+            // debugger;
+            var multiplier= $("input#multiplier").val();
+            var startTime= new Date();
+            var endTime=new Date();
+
+            var myThis=this;
+
+            function displayTimeUntilDone(element, timeIncrementInput, callback) {
+              var increment=$(timeIncrementInput).val();
+              endTime.setTime(startTime.getTime() + Number(increment)*1000*multiplier);
+
+              var remainingSeconds;
+              var currentTime=new Date();
+              remainingSeconds=Math.round((endTime - currentTime)/1000)
+
+              if (remainingSeconds>0) {
+                $(element).html(`<p>
+                   T-${remainingSeconds}
+                </p>`);
+                setTimeout( () => {
+                  displayTimeUntilDone(element,timeIncrementInput,callback)
+                  // removed .bind(myThis)
+                }, 1000)
+              }
+              else {
+                $(element).html(`<p>
+                   DONE!
+                </p>`)
+                callback();
+              }
+            }
+
+            // contemporaneously
+
+
+
+            displayTimeUntilDone("#display1", "#seconds1", ()=> {
+              startTime= new Date();
+              this.startTime=startTime;
+              //Treat1
+              //debugger;
+              startVideo();
+              displayTimeUntilDone("#display2", "#seconds2", ()=> {
+                pauseVideo();
+                startTime= new Date();
+                this.startTime=startTime;
+                displayTimeUntilDone("#display3", "#seconds3", ()=> {
+                  //Treat2
+                  startVideo();
+                  setTimeout(pauseVideo, 15000);
+                  startTime= new Date();
+                  this.startTime=startTime;
+                  displayTimeUntilDone("#display4", "#seconds4", ()=> {
+                    pauseVideo();
+                    startTime= new Date();
+                    this.startTime=startTime;
+                    displayTimeUntilDone("#display5", "#seconds5", console.log)})})})
+              });
+
+
+            function myBoxAnimate(color, progressIdCSS, displayCSS, fillTime) {
+              // debugger;
+              // $(progressIdCSS).css('height','0%').css('width', '0%').css('background', color)
+              $(progressIdCSS).css({height:'0%', width:'0%', background:color})
+              $(progressIdCSS).animate({ height: '100%' , width: '100%', background: color }, fillTime*1000);
+              $(displayCSS).html(`<p>
+              </p>`)
+            }
+            var extraDelay=500;
+            var myDelays=[Number($("#seconds1").val()),Number($("#seconds2").val()),Number($("#seconds3").val()), Number($("#seconds4").val()), Number($("#seconds5").val())];
+            myDelays=myDelays.map(x=>x*multiplier)
+            console.table(myDelays)
+
+            var playSoundDuration=5*1000;
+
+            myBoxAnimate('red', "div#progress1", "#display1", myDelays[0])
+            $("#mainMessage").html('WORK WORK WORK')
+            //oscillators[0].start
+            //setTimeout(()=>{ oscillators[0].stop}, playSoundDuration)
+
+
+            setTimeout( ()=>{
+              myBoxAnimate("blue", "div#progress2", "#display2", myDelays[1]);
+              $("#mainMessage").html('Hooray! GET A TREAT');
+              // oscillators[1].start()
+              // setTimeout(()=>{ oscillators[1].stop()}, playSoundDuration);
+            }, 1000*myDelays[0] + extraDelay )
+
+
+            setTimeout( ()=>{
+              myBoxAnimate("red", "div#progress3", "#display3", myDelays[2]);
+              $("#mainMessage").html('more work work work, before ANOTHER TREAT');
+              // oscillators[2].start()
+              // setTimeout(()=>{ oscillators[2].stop()}, playSoundDuration)
+            }, 1000*(myDelays.slice(0,2).reduce((x,y)=>x+y)) + extraDelay )
+
+            setTimeout( ()=>{
+              myBoxAnimate("blue", "div#progress4", "#display4", myDelays[3]);
+              $("#mainMessage").html('Hooray! GET A 2nd TREAT');
+              // oscillators[3].start()
+              // setTimeout(()=>{ oscillators[3].stop()}, playSoundDuration)
+            }, 1000*(myDelays.slice(0,3).reduce((x,y)=>x+y)) + extraDelay )
+
+            setTimeout( ()=>{
+              myBoxAnimate("red", "div#progress5", "#display5", myDelays[4]);
+              $("#mainMessage").html('final push! work! You can do it!');
+              // oscillators[4].start()
+              // setTimeout(()=>{ oscillators[4].stop()}, playSoundDuration)
+            }, 1000*(myDelays.slice(0,4).reduce((x,y)=>x+y))+ extraDelay )
+
+     // For later, copy some of the keyboard ideas at https://codepen.io/pen/?editors=1010
+      });
+    })
+  </script>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -67,7 +194,90 @@
 
     <h3>Get UNSTUCK! --- Prototype -- Howie Chong</h3>
     <div class="jumbotron">
-      <h2 id="mainMessage">Hit Start(3)</h2>
+      <h2 id="mainMessage">First time: Hit Start to see how it works.</h2>
+      <div>
+        <script src="https://www.youtube.com/iframe_api"> </script>
+        <div id="player"></div>
+
+
+        <script>
+        ///// START YOUTUBE
+        // 2. This code loads the IFrame Player API code asynchronously.
+        // var tag = document.createElement('script');
+        //
+        // tag.src = "https://www.youtube.com/iframe_api";
+        // var firstScriptTag = document.getElementsByTagName('script')[document.getElementsByTagName('script').length-1];
+        // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+          var contexts=[];
+          var oscillators=[];
+          for (var i=1; i<=5; i++) {
+            var context = new (window.AudioContext || window.webkitAudioContext)();
+
+            var oscillator = context.createOscillator();
+
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 230+i*20;
+            oscillator.connect(context.destination);
+            //oscillator.start();
+
+            contexts.push(context)
+            oscillators.push(oscillator)
+          }
+
+
+
+                // 3. This function creates an <iframe> (and YouTube player)
+                //    after the API code downloads.
+                var player;
+                function onYouTubeIframeAPIReady() {
+                  player = new YT.Player('player', {
+                    height: '200',
+                    width: '200',
+                    videoId: 'dGFSjKuJfrI',
+                    playerVars: {
+                       start: '12',
+                       widget_referrer: 0,
+                       showinfo: 0,
+                       controls: 0,
+                       loop: 1,
+                       origin: 'https://obscure-mountain-68834.herokuapp.com/', 
+                    },
+                    events: {
+                      'onReady': onPlayerReady,
+                       'onStateChange': onPlayerStateChange,
+                    }
+                  });
+                }
+
+
+          // 4. The API will call this function when the video player is ready.
+          function onPlayerReady(event) {
+            event.target.playVideo();
+          }
+
+          // 5. The API calls this function when the player's state changes.
+          //    The function indicates that when playing a video (state=1),
+          //    the player should play for six seconds and then stop.
+          var done = false;
+          function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+              setTimeout(pauseVideo, 5000);
+              done = true;
+            }
+          }
+          function pauseVideo() {
+            player.pauseVideo();
+          }
+
+          function startVideo() {
+            player.playVideo();
+          }
+          ///// END YOUTUBE
+
+
+      </script>
+      </div>
     </div>
     <hr />
     <div>
@@ -84,7 +294,7 @@
 
       <div class="verticalBox" id="box2">
 
-          <input type="number" id="seconds2" value="4"/>S
+          <input type="number" id="seconds2" value="12"/>S
 
 
         <div class='boxwrapper' id='wrapper2'>
@@ -110,7 +320,7 @@
       </div>
 
       <div class="verticalBox" id="box4">
-          <input type="number" id="seconds4" value="4"/>S
+          <input type="number" id="seconds4" value="12"/>S
 
         <div class='boxwrapper' id='wrapper4'>
             <div class="progress work" id='progress4'></div>
@@ -138,136 +348,4 @@
   </div>
 
 </body>
-
-
-<script>
-  var contexts=[];
-  var oscillators=[];
-  for (var i=1; i<=5; i++) {
-    var context = new (window.AudioContext || window.webkitAudioContext)();
-
-    var oscillator = context.createOscillator();
-
-    oscillator.type = 'sine';
-    oscillator.frequency.value = 300+i*100;
-    oscillator.connect(context.destination);
-    //oscillator.start();
-
-    contexts.push(context)
-    oscillators.push(oscillator)
-  }
-
-  $(document).ready(function(){
-    console.log('ready');
-
-
-    $("button#thirdButton3").click(function(e){
-          e.preventDefault();
-          // debugger;
-          var multiplier= $("input#multiplier").val();
-          var startTime= new Date();
-          var endTime=new Date();
-
-          var myThis=this;
-
-          function displayTimeUntilDone(element, timeIncrementInput, callback) {
-            var increment=$(timeIncrementInput).val();
-            endTime.setTime(startTime.getTime() + Number(increment)*1000*multiplier);
-
-            var remainingSeconds;
-            var currentTime=new Date();
-            remainingSeconds=Math.round((endTime - currentTime)/1000)
-
-            if (remainingSeconds>0) {
-              $(element).html(`<p>
-                 T-${remainingSeconds}
-              </p>`);
-              setTimeout( () => {
-                displayTimeUntilDone(element,timeIncrementInput,callback)
-                // removed .bind(myThis)
-              }, 1000)
-            }
-            else {
-              $(element).html(`<p>
-                 DONE!
-              </p>`)
-              callback();
-            }
-          }
-
-          // contemporaneously
-
-
-
-          displayTimeUntilDone("#display1", "#seconds1",
-            ()=> {
-            startTime= new Date();
-            this.startTime=startTime;
-            displayTimeUntilDone("#display2", "#seconds2", ()=> {
-              startTime= new Date();
-              this.startTime=startTime;
-              displayTimeUntilDone("#display3", "#seconds3", ()=> {
-                startTime= new Date();
-                this.startTime=startTime;
-                displayTimeUntilDone("#display4", "#seconds4", ()=> {
-                  startTime= new Date();
-                  this.startTime=startTime;
-                  displayTimeUntilDone("#display5", "#seconds5", console.log)})})})
-            });
-
-
-          function myBoxAnimate(color, progressIdCSS, displayCSS, fillTime) {
-            // debugger;
-            // $(progressIdCSS).css('height','0%').css('width', '0%').css('background', color)
-            $(progressIdCSS).css({height:'0%', width:'0%', background:color})
-            $(progressIdCSS).animate({ height: '100%' , width: '100%', background: color }, fillTime*1000);
-            $(displayCSS).html(`<p>
-            </p>`)
-          }
-          var extraDelay=500;
-          var myDelays=[Number($("#seconds1").val()),Number($("#seconds2").val()),Number($("#seconds3").val()), Number($("#seconds4").val()), Number($("#seconds5").val())];
-          myDelays=myDelays.map(x=>x*multiplier)
-          console.table(myDelays)
-
-          var playSoundDuration=5*1000;
-
-          myBoxAnimate('red', "div#progress1", "#display1", myDelays[0])
-          $("#mainMessage").html('WORK WORK WORK')
-          oscillators[0].start
-          setTimeout(()=>{ oscillators[0].stop}, playSoundDuration)
-
-
-          setTimeout( ()=>{
-            myBoxAnimate("blue", "div#progress2", "#display2", myDelays[1]);
-            $("#mainMessage").html('Hooray! GET A TREAT');
-            oscillators[1].start()
-            setTimeout(()=>{ oscillators[1].stop()}, playSoundDuration);
-          }, 1000*myDelays[0] + extraDelay )
-
-
-          setTimeout( ()=>{
-            myBoxAnimate("red", "div#progress3", "#display3", myDelays[2]);
-            $("#mainMessage").html('more work work work, before ANOTHER TREAT');
-            oscillators[2].start()
-            setTimeout(()=>{ oscillators[2].stop()}, playSoundDuration)
-          }, 1000*(myDelays.slice(0,2).reduce((x,y)=>x+y)) + extraDelay )
-
-          setTimeout( ()=>{
-            myBoxAnimate("blue", "div#progress4", "#display4", myDelays[3]);
-            $("#mainMessage").html('Hooray! GET A 2nd TREAT');
-            oscillators[3].start()
-            setTimeout(()=>{ oscillators[3].stop()}, playSoundDuration)
-          }, 1000*(myDelays.slice(0,3).reduce((x,y)=>x+y)) + extraDelay )
-
-          setTimeout( ()=>{
-            myBoxAnimate("red", "div#progress5", "#display5", myDelays[4]);
-            $("#mainMessage").html('final push! work! You can do it!');
-            oscillators[4].start()
-            setTimeout(()=>{ oscillators[4].stop()}, playSoundDuration)
-          }, 1000*(myDelays.slice(0,4).reduce((x,y)=>x+y))+ extraDelay )
-
-
-    });
-  })
-</script>
 </html>
